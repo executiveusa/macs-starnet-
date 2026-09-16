@@ -49,7 +49,9 @@ No repository currently earns 8+. The strongest near-term suite candidates are M
 
 PostaStudios and `postiz-maxx-clipz` are not the same engine. PostaStudios is a TryPost-derived Laravel/Inertia product with REST and MCP; `postiz-maxx-clipz` is a Postiz TypeScript fork under AGPL. Both cover scheduling and analytics. Running both doubles OAuth review, provider breakage, queues, data models, support, and security work.
 
-Use PostaStudios as the canonical Social district because Bambú explicitly selected the agency's own product and its MCP/REST contract suits MAXX. Give Postiz only a short benchmark against missing must-haves. A switch requires evidence that Postiz closes a critical gap that Posta cannot close at lower total cost. Never blend their code casually; licenses and data migrations must be reviewed first.
+Head-to-head review now favors `postiz-maxx-clipz` as the canonical Social district base. It is the direct Postiz fork, has a public API and MCP surface, broad scheduling/analytics/team features, self-host Compose, and much stronger active upstream maintenance. On September 16 the fork was a clean ancestor, 58 commits behind upstream and zero commits ahead, so it can fast-forward without losing local changes. PostaStudios remains a useful TryPost-derived alternative with a simpler Laravel/Inertia stack and explicit REST/MCP implementation, but it does not currently beat Postiz on ecosystem/activity evidence.
+
+The upstream fast-forward candidate is `07fd99e` on branch `sync/upstream-2026-09-16`. Static/package checks passed. Full build is not yet proven: dependency/build work exceeded the runner window and a narrowed backend build hit the runner's memory ceiling, so a larger CI/VPS builder must run frozen install, all three builds, tests, Compose validation, migrations, and live sandbox accounts before merge. Never blend the two engines casually; both are AGPL and data/OAuth migrations still need review.
 
 ## Server boundary and portability
 
