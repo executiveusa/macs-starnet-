@@ -1,0 +1,1 @@
+const test=require('node:test'),assert=require('node:assert/strict'); const {buildDailyReport}=require('../app/reports'); test('daily report is grounded in empty registries',()=>{const r=buildDailyReport(new Date('2026-09-16T12:00:00Z'));assert.deepEqual(r.summary,{openTasks:0,clients:0,drafts:0,awaitingApproval:0});assert.match(r.proof,/local registries/)})

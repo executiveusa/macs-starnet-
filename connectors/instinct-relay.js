@@ -1,0 +1,6 @@
+const crypto=require('node:crypto');const {request}=require('./http-client');
+const seen=new Map();
+function envelope(input){if(!input||typeof input.summary!=='string'||!input.summary.trim())throw Error('summary required');return {correlationId:input.correlationId||crypto.randomUUID(),idempotencyKey:input.idempotencyKey||crypto.randomUUID(),summary:input.summary.trim(),context:input.context||{},requestedBy:'MAXX'};}
+async function dispatch(input,env=process.env){const item=envelope(input);const result=await request({baseUrl:env.INSTINCT_RELAY_BASE_URL,token:env.INSTINCT_RELAY_OUTBOUND_TOKEN,path:'/tasks',method:'POST',body:item,idempotencyKey:item.idempotencyKey});return {...item,receipt:result};}
+function acceptCallback({token,body},env=process.env){if(!env.INSTINCT_RELAY_CALLBACK_TOKEN||token!==env.INSTINCT_RELAY_CALLBACK_TOKEN)return {status:401,error:'invalid-callback-token'};if(!body?.correlationId||!body?.receiptId)return {status:400,error:'invalid-callback'};const key=`${body.correlationId}:${body.receiptId}`;if(seen.has(key))return {status:200,replayed:true,receipt:seen.get(key)};const receipt={correlationId:body.correlationId,receiptId:body.receiptId,state:body.state||'reported',summary:String(body.summary||'')};seen.set(key,receipt);return {status:202,replayed:false,receipt};}
+module.exports={envelope,dispatch,acceptCallback};

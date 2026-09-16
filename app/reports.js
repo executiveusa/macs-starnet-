@@ -1,0 +1,3 @@
+const {read}=require('./store'); const city=require('../config/city.json');
+function buildDailyReport(now=new Date()) { const tasks=read('tasks'), clients=read('clients'), content=read('content'); return {date:now.toISOString().slice(0,10),agent:city.primaryAgent,summary:{openTasks:tasks.tasks.filter(x=>x.status!=='done').length,clients:clients.clients.length,drafts:content.drafts.length,awaitingApproval:content.approvals.filter(x=>x.status==='pending').length},teachingTip:'Review one pending item, choose the next safe step, and keep the receipt.',proof:'Counts come from local registries. Connector status is reported separately.'}; }
+module.exports={buildDailyReport};

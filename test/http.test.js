@@ -1,0 +1,2 @@
+const test=require('node:test'),assert=require('node:assert/strict'); const server=require('../app/server'); let base;
+test.before(async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}`});test.after(()=>server.close());test('health and overview work',async()=>{assert.equal((await fetch(base+'/health/live')).status,200);const o=await (await fetch(base+'/api/overview')).json();assert.equal(o.city.primaryAgent,'MAXX');assert.equal(o.clients.clients.length,0)});
