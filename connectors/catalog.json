@@ -1,0 +1,8 @@
+{
+  "connectors":[
+    {"id":"instinct-relay","label":"Instinct dispatch relay","status":"not-configured","required":["baseUrl","outboundToken","callbackToken"],"rules":["separate outbound and callback tokens","idempotency keys","correlation IDs","audit receipts"]},
+    {"id":"postastudios","label":"PostaStudios / TryPost","source":"https://github.com/executiveusa/postastudios","status":"not-configured","required":["baseUrl","apiToken"],"rules":["draft by default","publish only after approval"]},
+    {"id":"bluehost","label":"Bluehost","status":"not-configured","required":["apiBaseUrl","apiToken"],"rules":["read before write","approval before changes","log all changes"]},
+    {"id":"voice","label":"Hands-free voice","status":"not-configured","required":["provider","callbackBaseUrl"],"rules":["barge-in","readback before consequential action","no secret capture in transcript"]}
+  ]
+}

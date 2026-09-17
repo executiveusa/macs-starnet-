@@ -1,0 +1,5 @@
+.env
+*.tmp
+node_modules/
+reports/*.json
+ops/icm/evidence/

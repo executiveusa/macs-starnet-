@@ -1,0 +1,16 @@
+{
+  "city": "MACS Command City",
+  "ownerRole": "MACS operator",
+  "primaryAgent": "MAXX",
+  "defaultRoute": "private-command-center",
+  "personaRule": "MAXX persona is externally owned. Imports and upgrades must not rewrite it.",
+  "districts": [
+    {"id":"dispatch","label":"Dispatch","mode":"active"},
+    {"id":"clients","label":"Clients","mode":"active"},
+    {"id":"social","label":"Social","mode":"connector-required"},
+    {"id":"publishing","label":"Publishing","mode":"approval-required"},
+    {"id":"server","label":"Websites","mode":"connector-required"},
+    {"id":"voice","label":"Voice","mode":"connector-required"},
+    {"id":"crypto","label":"Crypto Watch","mode":"read-only"}
+  ]
+}

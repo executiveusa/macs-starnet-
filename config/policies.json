@@ -1,0 +1,12 @@
+{
+  "productionDeploy": "blocked-until-separate-approval",
+  "externalCommunication": "approval-required",
+  "publishing": "approval-required",
+  "bluehostMutation": "approval-required",
+  "moneyMovement": "blocked",
+  "cryptoTrading": "blocked",
+  "walletSigning": "blocked",
+  "gamblingAndWagers": "blocked",
+  "financialDistrictScope": ["education","news","risk-context","portfolio-tracking-from-user-supplied-data"],
+  "proofChain": ["builder","ocr","judge"]
+}

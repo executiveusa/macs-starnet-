@@ -1,0 +1,1 @@
+import {execFileSync} from 'node:child_process';const required=['git','node'];for(const cmd of required){try{execFileSync(cmd,['--version'],{stdio:'ignore'})}catch{throw Error(`${cmd} is required`)}}console.log('ACFS preflight passed. Install the pinned ACFS source only after reviewing its current instructions.');
