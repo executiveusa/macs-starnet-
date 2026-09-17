@@ -1,0 +1,6 @@
+# PRD: Maxx Postz social engine
+**Job:** provide the one canonical self-hosted social scheduler behind MAXX.
+**Decision:** `postiz-maxx-clipz` wins the repository-level comparison over PostaStudios on active upstream maintenance, API/MCP, broad scheduler/analytics/team functions, and self-host support. The fork was a clean ancestor of upstream on September 16, 2026 (0 ahead, 58 behind) and fast-forwards to `07fd99e`.
+**To production:** land the upstream sync through CI on a larger builder; run frozen install, frontend/backend/orchestrator builds, tests, Compose validation, migration dry-run/rollback, secret scan, and license notices; reapply approved Maxx branding as a separate patch; configure identical sandbox accounts; prove content types, media, schedules, approvals, analytics, webhooks, idempotency, teams, backup/restore, and MAXX's MCP/API scope; write a Posta export/archive plan.
+**Acceptance:** each promised network passes publish/readback/analytics in sandbox; failed posts retry safely; two client workspaces are isolated; MAXX drafts and schedules but cannot bypass publish approval; backup/restore and upstream update rehearsal pass on Max's server.
+**Stops:** no dual production engines, no merge before full CI, no code blending without AGPL/data review, no live client tokens during preview.
