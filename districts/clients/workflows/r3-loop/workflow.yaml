@@ -1,0 +1,62 @@
+name: macs-r3-loop
+version: 0.1
+status: pilot
+
+instinct: "Turn an existing customer relationship into useful feedback and an easy reason to return."
+
+inputs:
+  supported_now:
+    - qr_scan
+    - manual_link
+    - csv_import
+  future_with_approval:
+    - square_completed_appointment
+    - crm_webhook
+
+stages:
+  - id: 01_ingest
+    purpose: "Receive a visit or approved historical-customer cohort."
+    approval: operator
+  - id: 02_eligibility
+    purpose: "Confirm source, channel permission, and deduplicate."
+    approval: required_for_imports
+  - id: 03_feedback
+    purpose: "Ask for short private feedback on mobile."
+    approval: owner_copy
+  - id: 04_reward
+    purpose: "Issue an owner-approved thank-you for completing feedback."
+    approval: owner_offer
+    invariants:
+      - "not conditioned on sentiment"
+      - "not conditioned on public review"
+  - id: 05_optional_actions
+    purpose: "Offer honest public review, booking, or referral paths."
+    approval: owner_destinations
+  - id: 06_measure
+    purpose: "Count observed actions without inventing attribution."
+  - id: 07_report
+    purpose: "One-page owner report: what happened, what it cost, what to decide."
+
+pilot:
+  client_slug: crown-and-core
+  outbound_live: false
+  reward_live: false
+  public_review_required: false
+  stored_feedback_publicly_readable: false
+
+metrics:
+  - eligible_customers
+  - requests_sent
+  - feedback_submitted
+  - review_clicks
+  - booking_clicks
+  - rewards_issued
+  - rewards_redeemed
+  - attributed_return_bookings
+
+stop_conditions:
+  - owner_withdraws_approval
+  - consent_or_contact_permission_is_unclear
+  - public_review_incentive_is_requested
+  - data_source_cannot_be_verified
+  - attribution_claim_cannot_be_supported
