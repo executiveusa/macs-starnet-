@@ -25,20 +25,27 @@ const store=require("../app/store");
   process.env.INSTINCT_RELAY_CALLBACK_TOKEN="proof-callback-token";
 
   // 1. create + dispatch the task
-  const result=await relay.dispatch({summary:"PROOF FIXTURE: compile the weekly fixture report (no real client data)",context:{proof:true,date:"2026-09-26"}});
+  // stable fixture IDs so reruns upsert instead of appending
+  const result=await relay.dispatch({summary:"PROOF FIXTURE: compile the weekly fixture report (no real client data)",context:{proof:true,date:"2026-09-26"},correlationId:"proof-fixture-2026-09-26-macs-001",idempotencyKey:"proof-fixture-2026-09-26-macs-001"});
   console.log("dispatched:",result.correlationId,result.idempotencyKey!==undefined);
 
   // 2. negative test: bad callback token -> 401
-  const bad=relay.acceptCallback({token:"wrong",body:{correlationId:result.correlationId,receiptId:"rcpt-1"}});
+  const bad=relay.acceptCallback({token:"wrong",body:{correlationId:result.correlationId,receiptId:"rcpt-proof-fixture-1"}});
   console.log("bad-token-callback-status:",bad.status);
+  if(bad.status!==401){console.error("PROOF FAILED: bad token did not return 401, got",bad.status);process.exit(1);}
 
   // 3. good callback -> receipt; 4. replay -> replayed:true
-  const good=relay.acceptCallback({token:"proof-callback-token",body:{correlationId:result.correlationId,receiptId:"rcpt-1",state:"done",summary:"fixture report compiled (stub BARS)"}});
-  const replay=relay.acceptCallback({token:"proof-callback-token",body:{correlationId:result.correlationId,receiptId:"rcpt-1",state:"done",summary:"fixture report compiled (stub BARS)"}});
+  const good=relay.acceptCallback({token:"proof-callback-token",body:{correlationId:result.correlationId,receiptId:"rcpt-proof-fixture-1",state:"done",summary:"fixture report compiled (stub BARS)"}});
+  const replay=relay.acceptCallback({token:"proof-callback-token",body:{correlationId:result.correlationId,receiptId:"rcpt-proof-fixture-1",state:"done",summary:"fixture report compiled (stub BARS)"}});
   console.log("good-callback-status:",good.status,"replay:",replay.replayed);
+  if(good.status!==202||!good.receipt){console.error("PROOF FAILED: valid callback did not return 202+receipt");process.exit(1);}
+  if(replay.replayed!==true){console.error("PROOF FAILED: replay not detected");process.exit(1);}
 
   // 5. store task + receipt where the command API reads them (status done: the receipt completed it)
+  // upsert: drop any prior proof fixture entries, then store exactly one
   const db=store.read("tasks");
+  db.tasks=db.tasks.filter(t=>!t.proofFixture);
+  db.receipts=db.receipts.filter(r=>!r.proofFixture);
   db.tasks.push({correlationId:result.correlationId,idempotencyKey:result.idempotencyKey,summary:result.summary,requestedBy:result.requestedBy,createdAt:"2026-09-26",status:"done",proofFixture:true});
   db.receipts.push({...good.receipt,receivedAt:"2026-09-26",executor:"local-stub-relay (BARS bridge contract pending owner decision)",proofFixture:true});
   store.atomicWrite("tasks",db);

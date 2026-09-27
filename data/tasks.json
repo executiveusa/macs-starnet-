@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "tasks": [
     {
-      "correlationId": "24bbaa20-0200-4281-888c-5b5bb67411ff",
-      "idempotencyKey": "1dca21a7-d76d-43e5-8348-4817d98e16eb",
+      "correlationId": "proof-fixture-2026-09-26-macs-001",
+      "idempotencyKey": "proof-fixture-2026-09-26-macs-001",
       "summary": "PROOF FIXTURE: compile the weekly fixture report (no real client data)",
       "requestedBy": "MAXX",
       "createdAt": "2026-09-26",
@@ -13,8 +13,8 @@
   ],
   "receipts": [
     {
-      "correlationId": "24bbaa20-0200-4281-888c-5b5bb67411ff",
-      "receiptId": "rcpt-1",
+      "correlationId": "proof-fixture-2026-09-26-macs-001",
+      "receiptId": "rcpt-proof-fixture-1",
       "state": "done",
       "summary": "fixture report compiled (stub BARS)",
       "receivedAt": "2026-09-26",
