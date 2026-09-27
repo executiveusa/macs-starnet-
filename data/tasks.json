@@ -1,1 +1,25 @@
-{"schemaVersion":1,"tasks":[],"receipts":[]}
+{
+  "schemaVersion": 1,
+  "tasks": [
+    {
+      "correlationId": "proof-fixture-2026-09-26-macs-001",
+      "idempotencyKey": "proof-fixture-2026-09-26-macs-001",
+      "summary": "PROOF FIXTURE: compile the weekly fixture report (no real client data)",
+      "requestedBy": "MAXX",
+      "createdAt": "2026-09-26",
+      "status": "done",
+      "proofFixture": true
+    }
+  ],
+  "receipts": [
+    {
+      "correlationId": "proof-fixture-2026-09-26-macs-001",
+      "receiptId": "rcpt-proof-fixture-1",
+      "state": "done",
+      "summary": "fixture report compiled (stub BARS)",
+      "receivedAt": "2026-09-26",
+      "executor": "local-stub-relay (BARS bridge contract pending owner decision)",
+      "proofFixture": true
+    }
+  ]
+}
